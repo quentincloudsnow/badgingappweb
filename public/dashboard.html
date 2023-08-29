@@ -3,13 +3,16 @@
 <head>
     <title>Badge Printing</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr@4.6.9/dist/flatpickr.min.js"></script>
+
 </head>
 <body>
     <div class="container">
         <h1>Badge Printing</h1>
         <form>
             <label for="access_expiration">Access Expiration:</label>
-            <input type="text" id="access_expiration" name="access_expiration" required><br>
+            <input type="text" id="access-expiration" name="access-expiration" placeholder="Select access expiration date" readonly>
 
             <label for="building_location">Building Location:</label>
             <input type="text" id="building_location" name="building_location" required><br>
@@ -42,6 +45,10 @@
             // Just display a message when button is clicked
             document.getElementById("message").textContent = "Badge printed";
         }
+        flatpickr("#access-expiration", {
+        enableTime: false, // If you only need date, not time
+        dateFormat: "Y-m-d", // Format: YYYY-MM-DD
+    });
     </script>
 </body>
 </html>
