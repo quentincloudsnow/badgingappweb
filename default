@@ -1,0 +1,46 @@
+server {
+    listen 80;
+    server_name _;
+
+    # Location block for the first app
+    location /app1 {
+        proxy_pass http://localhost:3001;  # Proxy to your Node.js app
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    location /dashboard {
+    proxy_pass http://localhost:3001/dashboard;  # Update the path if needed
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    rewrite ^/dashboard(/.*)$ $1 break;
+    }
+
+    # Location block for the second app
+    location /checkUser {
+        proxy_pass http://localhost:3000;  # Proxy to another Node.js app
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Location block for static files
+    location /static {
+        alias /path/to/static/files;  # Replace with actual path
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000";
+    }
+
+    # Default location block
+    location / {
+        root /home/azureuser/badgingapp/public;  # Default root directory
+        index index.html;
+    }
+
+    # Add other configuration settings as needed
+}
+
