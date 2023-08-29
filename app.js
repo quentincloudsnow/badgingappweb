@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 app.post('/dashboard', (req, res) => {
     const { username, password } = req.body;
     // Replace with your authentication logic
-    if (username === 'badgeadmin' && password === 'badgeadmin@123') {
+    if (username === 'badgeadmin' && password === 'badgeadmin') {
         res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
     } else {
         res.send('Authentication failed');
