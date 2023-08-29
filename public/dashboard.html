@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Badge Printing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Badge Printing</h1>
+        <form>
+            <label for="access_expiration">Access Expiration:</label>
+            <input type="text" id="access_expiration" name="access_expiration" required><br>
+
+            <label for="building_location">Building Location:</label>
+            <input type="text" id="building_location" name="building_location" required><br>
+
+            <label for="guest_email">Guest Email:</label>
+            <input type="email" id="guest_email" name="guest_email" required><br>
+
+            <label for="host_email">Host Email:</label>
+            <input type="email" id="host_email" name="host_email" required><br>
+
+            <label for="host_id_number">Host ID Number:</label>
+            <input type="text" id="host_id_number" name="host_id_number" required><br>
+
+            <label for="host_name">Host Name:</label>
+            <input type="text" id="host_name" name="host_name" required><br>
+
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" required><br>
+
+            <label for="guest_title">Guest Title:</label>
+            <input type="text" id="guest_title" name="guest_title" required><br>
+
+            <button type="button" onclick="printBadge()">Submit</button>
+        </form>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        function printBadge() {
+            // Just display a message when button is clicked
+            document.getElementById("message").textContent = "Badge printed";
+        }
+    </script>
+</body>
+</html>
+
