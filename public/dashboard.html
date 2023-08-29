@@ -14,8 +14,14 @@
             <label for="access_expiration">Access Expiration:</label>
             <input type="text" id="access-expiration" name="access-expiration" placeholder="Select access expiration date" readonly>
 
-            <label for="building_location">Building Location:</label>
-            <input type="text" id="building_location" name="building_location" required><br>
+            <label for="building-location">Building Location:</label>
+            <select id="building-location" name="building-location">
+                <option value="Building A">Building A</option>
+                <option value="Building B">Building B</option>
+                <option value="Building C">Building C</option>
+                <option value="Building D">Building D</option>
+            </select>
+            
 
             <label for="guest_email">Guest Email:</label>
             <input type="email" id="guest_email" name="guest_email" required><br>
