@@ -15,6 +15,9 @@
         .logo-container img {
             margin-top: 20px; /* Adjust the margin value as needed */
         }
+        #message {
+            font-size: 24px; /* Adjust the font size as needed */
+        }
     </style>
 </head>
 <body>
@@ -60,10 +63,12 @@
     </div>
 
     <script>
-        function printBadge() {
-            // Just display a message when button is clicked
-            document.getElementById("message").textContent = "Badge printed";
-        }
+function printBadge() {
+        // Display the message and apply the CSS style
+        const messageElement = document.getElementById("message");
+        messageElement.textContent = "Badge printed";
+        messageElement.style.fontSize = "24px"; // Adjust the font size here
+    }
         flatpickr("#access-expiration", {
         enableTime: false, // If you only need date, not time
         dateFormat: "Y-m-d", // Format: YYYY-MM-DD
