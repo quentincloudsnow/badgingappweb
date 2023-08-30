@@ -67,3 +67,10 @@ You can view the status and logs of the app using:
 
 pm2 stop badging-app
 pm2 delete badging-app
+
+
+## Consideration
+
+For this to work from the internet, you are likely to need Nginx and do port redirection to internal node.js port this app is using. Check the default conf file in this repo for an example. thanks
+
+Quentin.Carton@servicenow.com
