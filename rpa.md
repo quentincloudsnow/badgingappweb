@@ -491,3 +491,180 @@ On the Save Recording as field Type **Data Entry** (1), and BadgePrinting for th
 You should now see that new activity in studio created by the recorder, it contains all the components needed to automate the data entry for that badge printing web application
 
 ![Alt text](img/2023-10-02_12-26-18.png)
+
+Lets test if the automation created with the recorder works!
+
+Close Google Chrome if it is still open. 
+
+In Studio, click on the **Main** tab to show the Main Activity 
+
+![Alt text](img/2023-10-02_12-57-13.png)
+
+Once one the Main activity, locate the **Data Entry** Activity in the project explorer, then drag it to the canvas and connect it as shown below/ Between the UniversalApplicaton component and the End component.
+
+![Alt text](img/2023-10-02_12-58-24.png)
+
+Now we can test that main activity. if the Run button is greyed out, click the **Clear log** button
+
+![Alt text](<img/2023-10-02_13-03-06 (1).png>)
+
+then Click **Run** 
+
+> This is how you test your automation as you add new step to your project. think about this as a debugger.
+
+You must have seen the browser opening automatically, then the authentication screen and the form being filled out automatically. The components should be all green, showing that every step executed successfully
+
+![Alt text](img/2023-10-02_13-17-29.png)
+
+Now that we know that the components all working. we need to get the values from the Work Queue Item. because so far the steps in the Data Entry activity are using hardcoded values that we have typed while using the recorder. We want to make that automation dynamic and get the metadata from the work queue item from the Queue in RPA Hub. 
+
+In order to be able to retrieve a work queue item from the instance, we need to connect studio to your instance.. Click on the **Connect to Instance** icon
+
+![Alt text](img/2023-10-02_13-21-39.png)
+
+A new browser session in google chrome should open automatically, type your instance credentials and click Log in
+
+![Alt text](img/2023-10-02_13-22-43.png)
+
+Click on **Allow** on the next screen to authorize studio to authenticate with your instance.
+
+![Alt text](img/2023-10-02_13-22-58.png)
+
+Click select the check box and click Open **ULT.RPA.HOST**
+
+![Alt text](<img/2023-10-02_13-25-31 (1).png>)
+
+When Studio is connected successfully to your instance you should see that Green dot next to your instance URL at the bottom of the screen
+
+![Alt text](img/2023-10-02_13-27-13.png)
+
+In Studio, clicl the **Toolbox** tab (1), then expand the **RPA Hub** Section, then drag the **Queue** Component (3) and drag and drop it to under the **Global Objects in the** Project Explorer as shown
+
+![Alt text](img/2023-10-02_13-30-20.png)
+
+From the Project Explorer, Click the **Queue** Component (1) under the **Global Objects** then type the name 'Badge Printing' (2).
+This is how the Work Queue was named in RPA Hub on the instance. 
+
+Click the Queue object in the Globak objects from the Project Explorer, this should expose the available methods in the object Explorer on the left hand side. Drag the **PickWorkitem** component (2) and drop it on the canvas between the Start object and the UniversalApplication Components as showns. Make sure to connect the components together as shown
+
+![Alt text](img/2023-10-02_13-35-34.png)
+
+On the Queue component on the canvas, double click the Status field (1), then select Static (2) on the **Read Data From** option,(3)
+
+![Alt text](img/2023-10-02_13-39-05.png)
+
+Select **Pending** and click **OK**
+
+![Alt text](img/2023-10-02_13-41-10.png)
+
+We are using that component to grab the metadata from the instance, we want to only pickl the work queue item with status pending. at the end of the automation we will update that work queue item as 'Completed'
+
+Mouse over the **Queue** component to show the Gear icon, and click it
+
+![Alt text](img/2023-10-02_13-43-50.png)
+
+Click on the **JSON PROPERTIES** (1) then click the + icon (2) eight times to add eight properties
+
+{"AccessExpirationDate":"2023-11-11","AccessExpirationDate":"Building AZ","guestemail":"ashley.burney@mycorpabc.com","HostEmail":"john@example.com","HostIdNumber":"123456","HostName":"John Doe","phone":"555-123-4567","Guest Title":"Guest"}
+
+
+![Alt text](<img/2023-10-02_13-47-26 (1).png>)
+
+Copy/Paste each of the value from table below to the property fields as shown below then click OK
+
+ | Property:|
+   |-------|
+   | BuildingLocation |
+   | AccessExpirationDate |
+   | guestemail  |
+   | HostEmail |
+   | HostIdNumber|
+   | HostName | 
+   | phone | 
+   | Guest Title |
+
+![Alt text](img/2023-10-02_13-54-35.png)
+
+This extract the each value individually from the 'Request Content' field in the Work Queue Item, it now become available values in RPA to use while automating the data entry.
+
+Now we are going to create new global variable then we will assign the values from the properties we just created.
+
+In the Project Explorer, right click on **global Objects**, then click **Create a Variable**
+
+![Alt text](img/2023-10-02_13-58-13.png)
+
+Scroll done to show the **Variable** object, select it, then under **Properties** set the Name field to **BuildingLocation** instead if Variable 
+
+![Alt text](img/2023-10-02_13-59-33.png)
+
+Repeat this to create 8 global variable and use this value to name them (you already created the one named **BuildingLocation)
+
+ | Property:|
+   |-------|
+   | BuildingLocation |
+   | AccessExpirationDate |
+   | guestemail  |
+   | HostEmail |
+   | HostIdNumber|
+   | HostName | 
+   | phone | 
+   | Guest Title |
+
+   You should end up with those eight variables as shown below:
+
+   ![Alt text](img/2023-10-02_14-05-02.png)
+
+Now we want to assign the values we extracted from the Work Queue Item to those variables.
+
+On the Queue component in the canvas, mouse over the Data out port (orange/yelow dot) on the buildingLocation field then right click
+
+![Alt text](img/2023-10-02_14-06-33.png)
+
+On the Write Data To fieldm select **Variable** (1), then click **Select** (2) and click **OK** (3)
+
+![Alt text](<img/2023-10-02_14-08-22 (1).png>)
+
+Select **Global** then select the Variable **BuildingLocation** and click **OK** (3)
+
+![Alt text](img/2023-10-02_14-09-47.png)
+
+Repeat this procedure for the seven remaining Objects 
+
+![Alt text](img/2023-10-02_14-11-17.png)
+
+The Queue component should look like this
+
+![Alt text](img/2023-10-02_14-13-44.png)
+
+Now we are going to modify the steps in the **Data Entry** Activity to use those global variable. Double click the Data Entry activity to open it
+
+![Alt text](img/2023-10-02_14-14-37.png)
+
+First we want the Robot to dynamically get the Badging App credentials from the instance. in the Toolbox, search for 'Credential' then Drag the component **GetApplicationCredentiak** (2) to the Canvas and connect it between the Start component and the Authentication component as shown:
+
+![Alt text](img/2023-10-02_14-17-57.png)
+
+Remember we have created at the begining of the lab some Application Credential calld 'Badging App Creds', this is where we are going to use it.
+
+Double click the Name field on the **Credentials** component and type 'Badging App Creds'
+
+It should look like the below
+
+![Alt text](img/2023-10-02_14-22-49.png)
+
+In order to test that step we need assign a bot process
+
+![Alt text](img/2023-10-02_14-23-21.png)
+
+
+
+![Alt text](img/2023-10-02_14-26-22.png)
+
+Click OK
+
+![Alt text](img/2023-10-02_14-27-27.png)
+
+
+![Alt text](img/2023-10-02_14-28-00.png)
+
+![Alt text](img/2023-10-02_14-28-16.png)
