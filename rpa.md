@@ -644,27 +644,101 @@ First we want the Robot to dynamically get the Badging App credentials from the 
 
 ![Alt text](img/2023-10-02_14-17-57.png)
 
-Remember we have created at the begining of the lab some Application Credential calld 'Badging App Creds', this is where we are going to use it.
+Remember we have created at the begining of the lab some Application Credential called 'Badging App Creds', this is where we are going to use it.
 
 Double click the Name field on the **Credentials** component and type 'Badging App Creds'
 
-It should look like the below
+It should look like this below
 
 ![Alt text](img/2023-10-02_14-22-49.png)
 
-In order to test that step we need assign a bot process
+In the top section of Studio, click the Assign Bot process button.
+> Note: This step is needed so studio can impersonate as the Robot and access Credentials and other parameters configured at the Bot Process level on the instnace.
 
 ![Alt text](img/2023-10-02_14-23-21.png)
 
-
+On the **Bot Process** field, Select 'Badge printing - Bot process'  and on the **Robot** field select 'Badge Printing Robot' then click **OK**
 
 ![Alt text](img/2023-10-02_14-26-22.png)
 
-Click OK
+Locate thge 'Authentication' component on the canvas, just beside the 'Credentials' step, then right click on iot and select **Set Breakpoint**. This is going to allow us to just test the **Credentials** step without having the automation continuing to the following steps that we still have to update.
 
 ![Alt text](img/2023-10-02_14-27-27.png)
 
+Now right click on the   **Credentials** step, then seklect **Run from here**. This will basically just execute that step and stop right after since we have implemented a Breakpoint on the following step.
 
 ![Alt text](img/2023-10-02_14-28-00.png)
 
+Once that step executed, mouse over the UserName Data out port (yellow dot) to display the data. Notice we can see the value that was retrieve from the Credential set on the once. that step works :-) .
+
 ![Alt text](img/2023-10-02_14-28-16.png)
+
+You can remove the Breakpoint on the Authentication step as shown, just select **Set Breakpoint** again to deactivate it.
+
+![Alt text](<img/2023-10-02_16-54-37 (1).png>)
+
+Then click **Stop** to exit the debugger more
+
+![Alt text](img/2023-10-02_16-55-57.png)
+
+And click on **Clear log**
+
+
+![Alt text](img/2023-10-02_16-56-49.png)
+
+Now we need on to go on each component that sets value for the automation and replaced the hardcoded value that we used while recording the steps with the recorder and use our global variables to make things dynamic.
+
+Locate the first 'SetText' component on the canva
+
+![Alt text](img/2023-10-02_16-58-31.png)
+
+Then as shown below, remove the text **badgeadmin**, and instead, grab the UserName Data out port from tjhe **Credentials** step and connect it to the Data in port of the SetText component as shown 
+
+![Alt text](<img/2023-10-02_17-03-45 (1).gif>)
+
+on the following SetText component (password1)
+
+![Alt text](img/2023-10-02_17-07-11.png)
+
+Remove the the text **badgeadmin**, then connect the Password data out port from the **Credentials** component to the data in port of the password1 step as shown:
+
+![Alt text](<img/2023-10-02_17-07-50 (1).gif>)
+
+Now the credentials are retrieved directly from the instance and will be used by the robot on the authentication screen of the web badging application.
+
+Now we have to use our global variables to set the values on the badge printing form with the values that we are retrieving from the Work Queue Item
+
+Locate the component SetText that have a date hardcoded
+
+![Alt text](img/2023-10-02_17-12-21.png)
+
+Then remove the hardcoded date, and configure that step to use the Global variable **AccessExpirationDate**
+
+![Alt text](<img/2023-10-02_17-14-02 (1).gif>)
+
+Repeat this procedure for all the other step of the automation to assign the value from the corresponding Global variable instead.
+
+Once your are done the Data Entry activity should look like this. You should not see any hardcoded value on steps, but global variables instead.
+
+![Alt text](img/2023-10-02_17-18-45.png)
+
+We are almost done building the automation, click on the Main tab to return to the main activity
+
+![Alt text](img/2023-10-02_17-22-47.png)
+
+In the project explorer, under global objects, select **Queue** (1). thenm on the Objet explorer (on the left hand side), drag the **UpdateWorkItem** and drop it between the **Data Entry** step and the **END** Step (3) as shown
+
+![Alt text](<img/2023-10-02_17-23-20 (1).png>)
+
+Make sure the component is connected as shown
+
+
+![Alt text](img/2023-10-02_17-27-17.png)
+
+Connect the WorkItemid Data out port of the **Queue/PickWorkItem** component, to WorkItemId data in port of the **Queue/UpdateWorkItem** component
+Then click the property 'inProgress' of the Queue/UpdateWorkitem, then select the static value 'Success' this will update the WorkQueueItem on the instance as Success. This update can eventually be used to trigger a no code workflow on the platform to complete other task of the process.
+
+![Alt text](<img/2023-10-02_17-28-20 (1).gif>)
+
+We have now finished to build the automation. Click the Run buttong in Studio to try it!
+
