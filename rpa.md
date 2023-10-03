@@ -734,4 +734,4 @@ You have successfully completed the lab!
 
 ## RPA Automatin package:
 
-If you are struggling to build that automation, you can download the automation package from this link, extract it on the machine where you have RPA Studio, and open it from Studio. 
+If you are struggling to build that automation, you can download the automation package from this link https://github.com/quentincloudsnow/badgingappweb/tree/b79ea8589c9880c78d69a39d690881989ce5d0fb/RPApackage , extract it on the machine where you have RPA Studio, and open it from Studio. 
