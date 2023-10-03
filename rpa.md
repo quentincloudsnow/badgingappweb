@@ -652,61 +652,31 @@ It should look like this below
 
 ![Alt text](img/2023-10-02_14-22-49.png)
 
-In the top section of Studio, click the Assign Bot process button.
-> Note: This step is needed so studio can impersonate as the Robot and access Credentials and other parameters configured at the Bot Process level on the instnace.
+See the **Credentials** component is returning the password in a SecureString object, we need to add another component that is going to convert it to a String object so we can use it in a SetText component that accept only 'String' type of object.
 
-![Alt text](img/2023-10-02_14-23-21.png)
+In the toolbox, search for 'secure', to finde the SecureStringDecode component from the Encryption folder as shown
 
-On the **Bot Process** field, Select 'Badge printing - Bot process'  and on the **Robot** field select 'Badge Printing Robot' then click **OK**
+![Alt text](img/2023-10-03_12-32-34.png)
 
-![Alt text](img/2023-10-02_14-26-22.png)
+Then Drag and Drop it so it is between the Credentials step and the authentication step as shown
 
-Locate thge 'Authentication' component on the canvas, just beside the 'Credentials' step, then right click on iot and select **Set Breakpoint**. This is going to allow us to just test the **Credentials** step without having the automation continuing to the following steps that we still have to update.
+![Alt text](<img/2023-10-03_12-34-08 (2).gif>)
 
-![Alt text](img/2023-10-02_14-27-27.png)
+Then connect the Password data out port from the Credentials step the data in port (secureString) of the Encryption component as shown:
 
-Now right click on the   **Credentials** step, then seklect **Run from here**. This will basically just execute that step and stop right after since we have implemented a Breakpoint on the following step.
+![Alt text](<img/2023-10-03_12-37-34 (1).gif>)
 
-![Alt text](img/2023-10-02_14-28-00.png)
+Remove the hardcoded value in the text/SetText component that contains the "badgadmin" value and also the encryted text in the Password1 component as shown:
 
-Once that step executed, mouse over the UserName Data out port (yellow dot) to display the data. Notice we can see the value that was retrieve from the Credential set on the once. that step works :-) .
+![Alt text](<img/2023-10-03_12-44-12 (1) (1).gif>)
 
-![Alt text](img/2023-10-02_14-28-16.png)
+Then connect the Data out port 'Password' from the Credentials components to  data in port of text/SetText component, and connect the data out port of the Encryption comnponentto the data in port of the password1 component as shown
 
-You can remove the Breakpoint on the Authentication step as shown, just select **Set Breakpoint** again to deactivate it.
+![Alt text](<img/2023-10-03_12-47-04 (1).gif>)
 
-![Alt text](<img/2023-10-02_16-54-37 (1).png>)
+> Note: The robot will now use the value retrieved directly from the instance while authenticating the the badging web interface.
 
-Then click **Stop** to exit the debugger more
-
-![Alt text](img/2023-10-02_16-55-57.png)
-
-And click on **Clear log**
-
-
-![Alt text](img/2023-10-02_16-56-49.png)
-
-Now we need on to go on each component that sets value for the automation and replaced the hardcoded value that we used while recording the steps with the recorder and use our global variables to make things dynamic.
-
-Locate the first 'SetText' component on the canva
-
-![Alt text](img/2023-10-02_16-58-31.png)
-
-Then as shown below, remove the text **badgeadmin**, and instead, grab the UserName Data out port from tjhe **Credentials** step and connect it to the Data in port of the SetText component as shown 
-
-![Alt text](<img/2023-10-02_17-03-45 (1).gif>)
-
-on the following SetText component (password1)
-
-![Alt text](img/2023-10-02_17-07-11.png)
-
-Remove the the text **badgeadmin**, then connect the Password data out port from the **Credentials** component to the data in port of the password1 step as shown:
-
-![Alt text](<img/2023-10-02_17-07-50 (1).gif>)
-
-Now the credentials are retrieved directly from the instance and will be used by the robot on the authentication screen of the web badging application.
-
-Now we have to use our global variables to set the values on the badge printing form with the values that we are retrieving from the Work Queue Item
+We have to use our global variables to set the values on the badge printing form with the values that we are retrieving from the Work Queue Item from the instance
 
 Locate the component SetText that have a date hardcoded
 
@@ -720,9 +690,9 @@ Repeat this procedure for all the other step of the automation to assign the val
 
 Once your are done the Data Entry activity should look like this. You should not see any hardcoded value on steps, but global variables instead.
 
-![Alt text](img/2023-10-02_17-18-45.png)
+![Alt text](img/2023-10-03_12-54-37.png)
 
-We are almost done building the automation, click on the Main tab to return to the main activity
+We are almost done building the automation, click on the Main tab to return to the main activity (or double click the Main activity from the Activities folder from the Project Explorer)
 
 ![Alt text](img/2023-10-02_17-22-47.png)
 
@@ -740,5 +710,18 @@ Then click the property 'inProgress' of the Queue/UpdateWorkitem, then select th
 
 ![Alt text](<img/2023-10-02_17-28-20 (1).gif>)
 
-We have now finished to build the automation. Click the Run buttong in Studio to try it!
+We have now finished to build the automation.
 
+before we try it lets make sure Studio is connected to the instance by following those steps. Don't forget to Assign the Bot process too as shown: 
+
+![Alt text](<img/2023-10-03_13-00-40 (1).gif>)
+
+
+ Click the Run button in Studio to try it!
+
+
+![Alt text](<img/2023-10-03_13-21-45 (2).gif>)
+
+If you connect to the RPA Hub workspace, and inspect the Queue Work Item, you should see his status as 'Success', your ServiceNow Developer can then leverage that update as a Trigger in flow designer to trigger other step of the process, but that data entry in the legacy badging application is now automated with RPA Hub! 
+
+![Alt text](<img/2023-10-03_13-26-22 (1).gif>)
