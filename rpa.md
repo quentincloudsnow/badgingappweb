@@ -2,7 +2,7 @@
 
 ## Introduction
 
-RPA Hub enable end-to-end automation for your organization. With a combination of UI interactions and element-based automations that interact between the various business applications, you can emulate user actions and eliminate mundane and repetitive human activities. Any ServiceNow's RPA Automation can be triggered from any Worlfow on the ServiceNow Platform, this allows to automate things that do not have protocal available such as REST API, SOAP, ssh, powershell etc. 
+Robotic Process Automation (RPA) is a transformative technology that has revolutionized the way businesses handle repetitive, rule-based tasks. It involves the use of software robots or "bots" to automate these tasks, allowing organizations to achieve greater efficiency, accuracy, and productivity. RPA Hub is ServiceNow's RPA technology that enable end-to-end automation for your organization. With a combination of UI interactions and element-based automations that interact between the various business applications, you can emulate user actions and eliminate mundane and repetitive human activities. Any ServiceNow's RPA Automation can be triggered from any Worlfow on the ServiceNow Platform, this allows to automate things that do not have protocal available such as REST API, SOAP, ssh, powershell etc. 
 
 ## Goal 
 
@@ -17,11 +17,21 @@ The requirement is that this automation can be triggered by a ServiceNow workflo
 The Badging Application is a web-based application and does not have an API. Agents receive visitor information via email and then access the web interface to populate the Badge Printing form wich result in a lot of manual error, typo and delay for visitor waiting for their badge.
 
 
-### Reviewing the badgine application
+### Reviewing the badging application
 
 From a web browser, open that [Link](https://automationengine.westus2.cloudapp.azure.com) to access the web-based badging application. Afterward, you should see the authentication screen below.
 
 ![Alt text](img/2023-10-02_08-23-29.png)
+
+You may encounter security warnings since the web application uses a root certificate that is not trusted by the browser on this VM. . Click Advanced
+
+![Alt text](<img/2023-10-02_11-23-15 (1).png>)
+
+Then click **Proceed to automationengine.westus2.cloudapp.azure.com (unsafe)**
+
+![Alt text](img/2023-10-02_11-23-49.png)
+
+> Don't worry about those warnings; we've developed that 'dummy' web badging app solely for lab purposes, and we do not transmit any sensitive data whatsoever.
 
 Type this credentials to authenticate then click Submit:
 
@@ -33,6 +43,7 @@ Type this credentials to authenticate then click Submit:
 You should see the page that the Security Agent uses to print badges below.
 
 ![Alt text](img/2023-10-02_08-28-54.png)
+
 
 In our RPA automation project, we will automate all these steps: opening the web browser, authenticating, performing the data entry, and submitting the form.
 
@@ -142,7 +153,7 @@ In the Create New Application Credentials form use the following values then cli
 
 We need to create a Robot record before we can continue the configuation of the bot process (typically you would have an existing pool of Robots you can assign to a Bot process, in that lab we create that Robot record manually)
 
-Click on the humbergur icon (1), then click on **Robots** (2) then clicl **New** (3) 
+Click on the humbergur icon (1), then click on **Robots** (2) then click **New** (3) 
 
 > Note: In ServiceNow RPA terminology, the Robot record corresponds to the Windows maching on which the ServiceNow's RPA Software agent runs a bot process, by defining the Robot on the Bot Process we are configuring which Virtual Machine will run the automation.
 
@@ -311,7 +322,7 @@ On the **Connection Manager** popup window, populate the fields with the informa
 
 then Click **Proceed** (5)
 
-The fist time Studio is open it can take a few minute to load all the components required 
+The fist time Studio is open it can take a minute to load all the components required 
 
 ![Alt text](img/2023-10-02_11-12-08.png)
 
@@ -362,6 +373,9 @@ Before closing Google Chrome, type 'chrome://extensions' in the URL bar and pres
 
 ![Alt text](img/2023-10-02_11-43-52.png)
 
+If you do not see the ServiceNow RPA Chrome Extension, please go on the Google Chrome store and install it as shown below:
+
+![Alt text](<img/2023-10-04_08-23-23 (1).gif>)
 
 Back to RPA Desktop design studio.
 
@@ -433,7 +447,7 @@ Type the value **badgeadmin** (1) then click **Record** (2)
 
 ![Alt text](img/2023-10-02_12-03-11.png)
 
-Hiver the mouse over the Password field then click **Set Text**
+Hover the mouse over the Password field then click **Set Text**
 
 ![Alt text](img/2023-10-02_12-04-05.png)
 
@@ -542,14 +556,17 @@ When Studio is connected successfully to your instance you should see that Green
 
 ![Alt text](img/2023-10-02_13-27-13.png)
 
-In Studio, clicl the **Toolbox** tab (1), then expand the **RPA Hub** Section, then drag the **Queue** Component (3) and drag and drop it to under the **Global Objects in the** Project Explorer as shown
+In Studio, click the **Toolbox** tab (1), then expand the **RPA Hub** Section, then drag the **Queue** Component (3) and drag and drop it to under the **Global Objects in the** Project Explorer as shown
 
 ![Alt text](img/2023-10-02_13-30-20.png)
 
-From the Project Explorer, Click the **Queue** Component (1) under the **Global Objects** then type the name 'Badge Printing' (2).
+From the Project Explorer, Click the **Queue** Component under the **Global Objects** then type the name 'Badge Printing'.
+
+![Alt text](img/2023-10-04_08-54-09.png)
+
 This is how the Work Queue was named in RPA Hub on the instance. 
 
-Click the Queue object in the Globak objects from the Project Explorer, this should expose the available methods in the object Explorer on the left hand side. Drag the **PickWorkitem** component (2) and drop it on the canvas between the Start object and the UniversalApplication Components as showns. Make sure to connect the components together as shown
+Double click the Queue object in the Global objects from the Project Explorer, this should expose the available methods in the object Explorer on the left hand side. Drag the **PickWorkitem** component (2) and drop it on the canvas between the Start object and the UniversalApplication Components as showns. Make sure to connect the components together as shown
 
 ![Alt text](img/2023-10-02_13-35-34.png)
 
@@ -568,8 +585,6 @@ Mouse over the **Queue** component to show the Gear icon, and click it
 ![Alt text](img/2023-10-02_13-43-50.png)
 
 Click on the **JSON PROPERTIES** (1) then click the + icon (2) eight times to add eight properties
-
-{"AccessExpirationDate":"2023-11-11","AccessExpirationDate":"Building AZ","guestemail":"ashley.burney@mycorpabc.com","HostEmail":"john@example.com","HostIdNumber":"123456","HostName":"John Doe","phone":"555-123-4567","Guest Title":"Guest"}
 
 
 ![Alt text](<img/2023-10-02_13-47-26 (1).png>)
@@ -620,11 +635,11 @@ Repeat this process to create eight global variables, and use these values as th
 
 Now we want to assign the values we extracted from the Work Queue Item to those variables.
 
-On the Queue component in the canvas, hover the mouse over the Data out port (orange/yelow dot) on the buildingLocation field then right click
+On the Queue component in the canvas, hover the mouse over the Data out port (orange/yelow dot) on the buildingLocation field then right click. and select Port Properties
 
 ![Alt text](img/2023-10-02_14-06-33.png)
 
-On the Write Data To fieldm select **Variable** (1), then click **Select** (2) and click **OK** (3)
+On the Write Data To field select **Variable** (1), then click **Select** (2) 
 
 ![Alt text](<img/2023-10-02_14-08-22 (1).png>)
 
@@ -658,7 +673,7 @@ It should look like this below
 
 See the **Credentials** component is returning the password in a SecureString object, we need to add another component that is going to convert it to a String object so we can use it in a SetText component that accept only 'String' type of object.
 
-In the toolbox, search for 'secure', to finde the SecureStringDecode component from the Encryption folder as shown
+In the toolbox, search for 'secure', to find the SecureStringDecode component from the Encryption folder as shown
 
 ![Alt text](img/2023-10-03_12-32-34.png)
 
@@ -674,7 +689,7 @@ Remove the hardcoded value in the text/SetText component that contains the "badg
 
 ![Alt text](<img/2023-10-03_12-44-12 (1) (1).gif>)
 
-Then connect the Data out port 'Password' from the Credentials components to  data in port of text/SetText component, and connect the data out port of the Encryption comnponentto the data in port of the password1 component as shown
+Then connect the Data out port 'UserName' from the Credentials components to  data in port of text/SetText component, and connect the data out port of the **Encryption** comnponent to the data in port of the password1 component as shown
 
 ![Alt text](<img/2023-10-03_12-47-04 (1).gif>)
 
@@ -700,7 +715,7 @@ We are almost done building the automation, click on the Main tab to return to t
 
 ![Alt text](img/2023-10-02_17-22-47.png)
 
-In the project explorer, under global objects, select **Queue** (1). thenm on the Objet explorer (on the left hand side), drag the **UpdateWorkItem** and drop it between the **Data Entry** step and the **END** Step (3) as shown
+In the project explorer, under global objects, select **Queue** (1). then on the Objet explorer (on the left-hand side), drag the **UpdateWorkItem** and drop it between the **Data Entry** step and the **END** Step (3) as shown
 
 ![Alt text](<img/2023-10-02_17-23-20 (1).png>)
 
@@ -732,6 +747,6 @@ If you connect to the RPA Hub workspace, and inspect the Queue Work Item, you sh
 
 You have successfully completed the lab!
 
-## RPA Automatin package:
+## Don't have time to finish? 
 
-If you are struggling to build that automation, you can download the automation package from this link https://github.com/quentincloudsnow/badgingappweb/tree/b79ea8589c9880c78d69a39d690881989ce5d0fb/RPApackage , extract it on the machine where you have RPA Studio, and open it from Studio. 
+If you are having difficulty building that automation, you can download the automation package from this link: [Link](https://github.com/quentincloudsnow/badgingappweb/blob/25e0f8c47cc0d3553a716ee1556b3ff382370714/RPApackage/Badge%20Printing%20RPA%20automation%2010001.zip). Extract it on the machine where you have RPA Studio and open it from Studio 
