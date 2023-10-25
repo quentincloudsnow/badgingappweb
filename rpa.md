@@ -1,7 +1,5 @@
 ## RPA Hub Lab
 
-Test
-
 ## Introduction
 
 Robotic Process Automation (RPA) is a transformative technology that has revolutionized the way businesses handle repetitive, rule-based tasks. It involves the use of software robots or "bots" to automate these tasks, allowing organizations to achieve greater efficiency, accuracy, and productivity. RPA Hub is ServiceNow's RPA technology that enable end-to-end automation for your organization. With a combination of UI interactions and element-based automations that interact between the various business applications, you can emulate user actions and eliminate mundane and repetitive human activities. Any ServiceNow's RPA Automation can be triggered from any Worlfow on the ServiceNow Platform, this allows to automate things that do not have protocal available such as REST API, SOAP, ssh, powershell etc. 
