@@ -65,7 +65,7 @@ In the top left-hand corner, click on the 'hamburger' icon to access the availab
 
 ![alt text](<img/2024-10-07_09-00-12 (1).png>)
 
-On the right side of the screem you should see the list of existing Robot Credentials, click the New button to add your windows credentials
+On the right side of the screen you should see the list of existing Robot Credentials, click the New button to add your windows credentials
 
 ![alt text](img/2024-10-07_09-10-00.png)
 
@@ -93,7 +93,44 @@ In the **Robot Password** field, Enter the password provided when you claimed th
 
 ![alt text](img/2024-10-07_09-19-35.png)
 
-Now that we have stored our Robot Credentials we can proceed with the Bot Process Configuration
+Now that we have stored our Robot Credentials we can proceed with creating the credential group
+
+>> The Credential group is to include a robot credential and application credentials that you can reuse in multiple bot processes. Unattended robots leverage the credential group to perform an automation that you defined in the associated bot process.
+
+Navigate to Credential Management (1), then click **Credential Groups** (2)
+
+![alt text](img/2024-10-10_10-24-25.png)
+
+Then click New
+
+![alt text](img/2024-10-10_10-26-35.png)
+
+Type a Name for the Credential Group: My RPA Credentials Group
+Select Robot Credentials we created earlier and click Save
+
+![alt text](img/2024-10-10_10-28-49.png)
+
+We need to create a Robot record, Navigate to Administration, Robots then click New
+
+![alt text](img/2024-10-10_11-27-01.png)
+
+Fill out the form as followed, replace Machine Name by the value we copied earlier (Hostname of the virtual Machine assigned to you for this lab), in the User field assign your own user (Admin) then click Save
+
+![alt text](img/2024-10-25_12-10-17.png)
+
+Click on Assigned Studio User to assign the permission to your user to use this Robot while developing the RPA Project
+
+![alt text](img/2024-10-10_11-39-44.png)
+
+Click Add to add your user, select System Administrator and click Add as shown below: 
+
+![alt text](img/2024-10-10_11-41-05.png)
+
+Click the refresh button to see your user in the list: 
+
+![alt text](img/2024-10-10_11-42-30.png)
+
+Now it is time to go create our Bot Process configuration. 
 
 Click on **Bot Process** (1), then go to **Assign Configuration** (Click the little arrow next to **Create Configuration**)."
 
@@ -138,29 +175,41 @@ then you should see it in the Business Application tab as shown
 
 ![Alt text](img/2023-10-02_09-15-03.png)
 
-Lets continue with the configuration of the bot process, click on the **Credentials Set** tab (1), then click **New** (2)
+Lets continue with the configuration of the bot process, Click on Process Credential Mappings tab, then click Add
 
-![Alt text](img/2023-10-02_09-17-26.png)
+![alt text](img/2024-10-10_10-33-18.png)
+
+Select the Credential Group we created earlier (My RPA Credentials Group) then click Add
+
+![alt text](img/2024-10-10_10-34-59.png)
+
+Click the refres button to confirm you see your Process Credential Mapping record as shown
+
+![alt text](img/2024-10-10_10-35-58.png)
+
+Click on the **Assigned Robots** tab and click new to assign your Robot (VM) to the bot process
+
+![alt text](img/2024-10-10_10-38-48.png)
 
 
+Select 'Badge Printing Robot' then click Add. Note that the Machine name should match the hostname of the Virtual machine assigned to you for this lab. 
+
+![alt text](img/2024-10-10_10-40-33.png)
+
+Click on the **Process Robot Credential tab and click New
+
+![alt text](img/2024-10-10_10-42-49.png)
+
+On the Credentials Group field select "My RPA Credentials Group" and on the robot field select "Badge printing Robot" then click Save.
+
+![alt text](<img/2024-10-10_10-44-06 (1).png>)
 
 
+We have mapped the Robot (VM) to the Bot Process, mapped the Robot Credentials to the Robot. we still need to set the Application Credentials so the Robot can authenticate with the system we are going to automate. 
 
+Navigste to **Application Credentials** then click New to create a new record.
+![alt text](img/2024-10-10_10-47-04.png)
 
-
-
-
-
-
-
-
-Click on **Application Credentials**
-
-![Alt text](img/2023-10-02_09-31-27.png)
-
-Then click **New**
-
-![Alt text](img/2023-10-02_09-33-12.png)
 
 In the Create New Application Credentials form use the following values then click **Save**
 
@@ -171,65 +220,29 @@ In the Create New Application Credentials form use the following values then cli
    | User name | badgeadmin |
    | password| badgeadmin |
 
-![Alt text](img/2023-10-02_09-37-28.png)
+![alt text](img/2024-10-10_10-51-09.png)
 
-We need to create a Robot record before we can continue the configuation of the bot process (typically you would have an existing pool of Robots you can assign to a Bot process, in that lab we create that Robot record manually)
+Navigte under Credential Management/Credential Group, click "My RPA Credentials Group"
 
-Click on the humbergur icon (1), then click on **Robots** (2) then click **New** (3) 
+![alt text](img/2024-10-10_11-49-23.png)
 
-> Note: In ServiceNow RPA terminology, the Robot record corresponds to the Windows maching on which the ServiceNow's RPA Software agent runs a bot process, by defining the Robot on the Bot Process we are configuring which Virtual Machine will run the automation.
+Click Application Credential, then Click Add
 
-![Alt text](img/2023-10-02_09-42-25.png)
+![alt text](<img/2024-10-10_11-50-11 (1).png>)
 
-In this form populate the fields with the following values then click **Save**
+Select Badging App Credentials then click Add
 
-| Field | value |
-   |-------|-------|
-   | Name | Badge Printing Robot |
-   | Machine Name | Host name you copied from the Mid Server record in previous step |
-   | Department | IT |
-   | Robot Type | Unattended |
+![alt text](img/2024-10-10_11-51-39.png)
 
-![alt text](img/2024-10-07_09-27-53.png)
+Click the Refresh button to make sure you see the updated configuration
 
-> Note: the Department field allows to slice and dice all the RPA Reporting per department.
+![alt text](img/2024-10-10_11-54-07.png)
 
-Click on the **Assigned Studio Users** to grant permission to your user (The Assign Bot Process feature provides a capability for the users to access the bot process information (such as queues, process parameters, and so on) in RPA Hub and debug the automation in the RPA Desktop Design Studio. The users listed in the Assigned Studio Users tab can utilize the robots from RPA Desktop Design Studio, depending on the associated bot process access)
+Return to your Bot Process configuration page
 
+![alt text](img/2024-10-10_11-56-19.png)
 
-![alt text](img/2024-10-07_09-29-19.png)
-
-Return to the Bot Process page by clicking on the **Detail** tab 
-
-![Alt text](img/2023-10-02_09-57-54.png)
-
-Then click on the **Assigned Robots** tab (1) then click **Add** (2) 
-
-![Alt text](img/2023-10-02_09-59-14.png)
-
-Select the **Badge Printing Robot** (1) record and then click **Add** (2)
-
-![Alt text](img/2023-10-02_10-00-36.png)
-
-Click the refresh button 
-
-![Alt text](img/2023-10-02_10-01-50.png)
-
-and make sure the robot record appears as shown in the **Assigned Robots** tab
-
-![Alt text](img/2023-10-02_10-02-47.png)
-
-Now, configure the Process Robot Credentials, which are linked to the credential set created earlier in the Robot record. This allows flexibility, accommodating different robots with distinct credential sets, although some robots may also share the same credentials.
-
-Click the **Process Robot Credentials** (1) then click **New** (2).
-
-![Alt text](img/2023-10-02_10-06-19.png)
-
-In the **Create New Process Robot Credential** form, on the **Credentials Set** field (1)  start typing 'IP-' it should return the name of the Credential Set record we previously created, select it (it happens to be your mid server hostname, in real life we might have to find a better naming convention :-) ), then on the **Robot** list field (2) search for 'Badge Printing robot' then select it and click **Save** (3)
-
-![Alt text](img/2023-10-02_10-09-47.png)
-
-Return to the **Detail** tab to go back to the bot process details, then click on the **Queue** tab, if you don't see it, click the **More** button
+Ten click on the **Queue** tab, if you don't see it, click the **More** button
 
 ![Alt text](img/2023-10-02_10-14-48.png)
 
@@ -352,21 +365,35 @@ The fist time Studio is open it can take a minute to load all the components req
 
 ![Alt text](img/2023-10-02_11-12-08.png)
 
-Once you see this welcome screen, click **Unattended Automation**
+Once you see this welcome screen, you can click Cancel to close that window (feel free to follow the quick tour if time permit)
 
-![Alt text](img/2023-10-02_11-13-42.png)
+![alt text](img/2024-10-23_16-47-23.png)
 
-Use the values below in the **New Unattended Project** screen 
+Click on **Create Automation**
 
- | Field | value |
+![alt text](img/2024-10-23_16-52-43.png)
+
+Select **Unattended Automation, type a Name and description as follow:
+
+| Field | value |
    |-------|-------|
    | Name (1) | Badge Printing RPA automation |
    | Description (2) | Automate the data entry in the badge printing web app
+
+![alt text](img/2024-10-23_16-53-36.png)
+
  
+ 
+ Click Next
 
-![Alt text](img/2023-10-02_11-15-29.png)
+ Make sure **Use a blank Canvas** is selected then click **Create**
 
-then click **OK** (3)
+
+![alt text](img/2024-10-23_16-55-37.png)
+
+You should see Studio open with a blank Canvas as shown: 
+
+![alt text](img/2024-10-23_16-57-31.png)
 
 We are going to open Google Chrome and make sure we can access the Badging App from that VM. 
 
@@ -404,52 +431,6 @@ If you do not see the ServiceNow RPA Chrome Extension, please go on the Google C
 ![Alt text](<img/2023-10-04_08-23-23 (1).gif>)
 
 Back to RPA Desktop design studio.
-
-We are going to use our Universal App Connector to Start Google Chrome and open the URL of the Badging app, for this, expand the **Connectors** Section (1), then drag the **Universal App Connector** (2) and drop it under the **Global Objects** (3)
-
-![Alt text](img/2023-10-02_11-28-16.png)
-
-Expand the **Global Objects** to show the **Universal Application** as shown
-
-![Alt text](img/2023-10-02_11-31-21.png)
-
-Double click the **UniversalApplication**(1) to expose the **Start** Method (2) available in the object explorer on the left-hand side.
-
-![Alt text](img/2023-10-02_11-32-55.png)
-
-Drag and Drop the **Start** method to the canvas as shown 
-
-![Alt text](img/2023-10-02_11-35-15.png)
-
-Connect the Start object to the UniversalApplicaton Component, then connect the UniversalApplication component to the End Object as shown
-
-![Alt text](<img/2023-10-02_11-36-31 (1).png>)
-
-Double click the AppType field
-
-![Alt text](img/2023-10-02_11-37-48.png) 
-
-select **Chrome** then click ok
-
-![Alt text](img/2023-10-02_11-38-34.png)
-
-Double click the **StartParams** 
-
-![Alt text](img/2023-10-02_11-39-29.png)
-
-And past this URL https://automationengine.westus2.cloudapp.azure.com
-
-![Alt text](img/2023-10-02_11-40-47.png)
-
-Right click on the UniversalApplication component and click **Run from here** 
-
->Note: We perform this to test a step. It should automatically open the web browser and navigate to the Badging Web application (keep the browser open on that page; you can minimize it)
-
-![Alt text](img/2023-10-02_11-49-16.png)
-
-The component is in Green, indicating it ran successfully:
-
-![Alt text](img/2023-10-02_11-51-44.png)
 
 In RPA Design studio, On the top left-hand corner, click on the **Launch Recorder button"
 
@@ -522,13 +503,21 @@ We are done capturing the actions with the recorder, click on the Pause recordin
 
 ![Alt text](img/2023-10-02_12-22-41.png)
 
-The recorded should have captured 12 steps, click **Save Recording**
+The recorded should have captured 12 steps, click **Review Recording**
 
-![Alt text](img/2023-10-02_12-23-39.png)
+![alt text](img/2024-10-23_17-06-02.png)
 
-On the Save Recording as field Type **Data Entry** (1), and BadgePrinting for the Global Object Name (2), then click **Save Recording** (2)
+On the next screen click continue 
 
-![Alt text](img/2023-10-02_12-25-58.png)
+![alt text](img/2024-10-23_17-06-44.png)
+
+
+
+On the Save Recording as field Type **Data Entry**, and BadgePrinting for the Global Object Name, then click **Save Recording**
+
+
+![alt text](img/2024-10-23_17-07-23.png)
+
 
 You should now see that new activity in studio created by the recorder, it contains all the components needed to automate the data entry for that badge printing web application
 
@@ -538,25 +527,13 @@ Lets test if the automation created with the recorder works!
 
 Close Google Chrome if it is still open. 
 
-In Studio, click on the **Main** tab to show the Main Activity 
+The **Data Entry** activity created by the Recorder should show up in the Canvas, Right Click the **Start** component then Click **Run From Herer**
 
-![Alt text](img/2023-10-02_12-57-13.png)
-
-Once one the Main activity, locate the **Data Entry** Activity in the project explorer, then drag it to the canvas and connect it as shown below/ Between the UniversalApplicaton component and the End component.
-
-![Alt text](img/2023-10-02_12-58-24.png)
-
-Now we can test that main activity. if the Run button is greyed out, click the **Clear log** button
-
-![Alt text](<img/2023-10-02_13-03-06 (1).png>)
-
-then Click **Run** 
-
-> This is how you test your automation as you add new step to your project. think about this as a debugger.
+> This is how you test one activity independently before you add it to another activity or Main activity. 
 
 You must have seen the browser opening automatically, then the authentication screen and the form being filled out automatically. The components should be all green, showing that every step executed successfully
 
-![Alt text](img/2023-10-02_13-17-29.png)
+![alt text](img/2024-10-24_07-59-46.png)
 
 Now that we know that the components are all working, we need to retrieve values from the Work Queue Item. So far, the steps in the Data Entry activity are using hardcoded values that we typed while using the recorder. We want to make the automation dynamic by obtaining the metadata from the Work Queue Item in the Queue within RPA Hub.
 
@@ -564,7 +541,7 @@ To retrieve a work queue item from the instance, we need to connect Studio to yo
 
 In order to be able to retrieve a work queue item from the instance, we need to connect studio to your instance.. Click on the **Connect to Instance** icon
 
-![Alt text](img/2023-10-02_13-21-39.png)
+![alt text](img/2024-10-24_08-02-00.png)
 
 A new browser session in google chrome should open automatically, type your instance credentials and click Log in
 
@@ -582,9 +559,16 @@ When Studio is connected successfully to your instance you should see that Green
 
 ![Alt text](img/2023-10-02_13-27-13.png)
 
+
+In Studio, double click the **Main** activity from the project explorer
+
+![alt text](img/2024-10-24_08-03-43.png)
+
+Think about that activity as the 'main' luncher, we will add other activities and components in the Main activity, that activity is the starting point of your automation project.
+
 In Studio, click the **Toolbox** tab (1), then expand the **RPA Hub** Section, then drag the **Queue** Component (3) and drag and drop it to under the **Global Objects in the** Project Explorer as shown
 
-![Alt text](img/2023-10-02_13-30-20.png)
+![alt text](img/2024-10-24_08-06-08.png)
 
 From the Project Explorer, Click the **Queue** Component under the **Global Objects** then type the name 'Badge Printing'.
 
@@ -594,15 +578,24 @@ This is how the Work Queue was named in RPA Hub on the instance.
 
 Double click the Queue object in the Global objects from the Project Explorer, this should expose the available methods in the object Explorer on the left hand side. Drag the **PickWorkitem** component (2) and drop it on the canvas between the Start object and the UniversalApplication Components as showns. Make sure to connect the components together as shown
 
-![Alt text](img/2023-10-02_13-35-34.png)
+![alt text](img/2024-10-24_08-09-26.png)
 
-On the Queue component on the canvas, double click the Status field (1), then select Static (2) on the **Read Data From** option,(3)
+On the Queue component on the canvas, click the **gear** icon 
 
-![Alt text](img/2023-10-02_13-39-05.png)
+![alt text](img/2024-10-24_08-16-17.png)
+
+Select the **Status** field then click ok 
+
+![alt text](img/2024-10-24_08-17-36.png)
+
+On the Queue component, double click the **Status** fiedl then select Static
+![alt text](img/2024-10-24_08-19-16.png)
+
 
 Select **Pending** and click **OK**
 
-![Alt text](img/2023-10-02_13-41-10.png)
+
+![alt text](img/2024-10-24_08-20-50.png)
 
 We are using this component to retrieve metadata from the instance. We want to select only the work queue item with the status 'Pending.' At the end of the automation, we will update that work queue item to 'Success'.
 
@@ -663,7 +656,7 @@ Now we want to assign the values we extracted from the Work Queue Item to those 
 
 On the Queue component in the canvas, hover the mouse over the Data out port (orange/yelow dot) on the buildingLocation field then right click. and select Port Properties
 
-![Alt text](img/2023-10-02_14-06-33.png)
+![alt text](img/2024-10-24_09-17-56.png)
 
 On the Write Data To field select **Variable** (1), then click **Select** (2) 
 
@@ -679,15 +672,17 @@ Repeat this procedure for the seven remaining Objects
 
 The Queue component should look like this
 
-![Alt text](img/2023-10-02_14-13-44.png)
+![alt text](img/2024-10-24_09-21-10.png)
+
+From the pick the **Data Entry** Activity and drop it on the **Main** activity, connect ther Queue component to the Data Entry component so it looks like the picture below:
+
+![alt text](img/2024-10-24_09-23-58.png)
 
 Now we are going to modify the steps in the **Data Entry** Activity to use those global variable. Double click the Data Entry activity to open it
 
-![Alt text](img/2023-10-02_14-14-37.png)
+First, we want the Robot to dynamically retrieve the Badging App credentials from the instance. In the Toolbox, search for 'Credential,' then drag the component **GetApplicationCredential** (1) to the Canvas and connect it between the Start component and the Authentication component as shown:"
 
-First, we want the Robot to dynamically retrieve the Badging App credentials from the instance. In the Toolbox, search for 'Credential,' then drag the component **GetApplicationCredential** (2) to the Canvas and connect it between the Start component and the Authentication component as shown:"
-
-![Alt text](img/2023-10-02_14-17-57.png)
+![alt text](img/2024-10-24_09-26-58.png)
 
 Remember, at the beginning of the lab, we created an Application Credential called 'Badging App Creds'; this is where we are going to use it
 
@@ -703,21 +698,17 @@ In the toolbox, search for 'secure', to find the SecureStringDecode component fr
 
 ![Alt text](img/2023-10-03_12-32-34.png)
 
-Then Drag and Drop it so it is between the Credentials step and the authentication step as shown
+Then Drag and Drop it so it is between the Credentials step and the Badge Printing/Start component
 
-![Alt text](<img/2023-10-03_12-34-08 (2).gif>)
-
-Then connect the Password data out port from the Credentials step the data in port (secureString) of the Encryption component as shown:
-
-![Alt text](<img/2023-10-03_12-37-34 (1).gif>)
+Then connect the Password data out port from the Credentials step the data in port (secureString) of the Encryption component
 
 Remove the hardcoded value in the text/SetText component that contains the "badgadmin" value and also the encryted text in the Password1 component as shown:
 
-![Alt text](<img/2023-10-03_12-44-12 (1) (1).gif>)
-
 Then connect the Data out port 'UserName' from the Credentials components to  data in port of text/SetText component, and connect the data out port of the **Encryption** comnponent to the data in port of the password1 component as shown
 
-![Alt text](<img/2023-10-03_12-47-04 (1).gif>)
+![alt text](img/2024-10-24_09-31-37.png)
+
+![alt text](<img/2024-10-24_09-36-37 (1).gif>)
 
 > Note: The robot will now use the value retrieved directly from the instance while authenticating the the badging web interface.
 
@@ -735,17 +726,17 @@ Repeat this procedure for all the other step of the automation to assign the val
 
 Once your are done the Data Entry activity should look like this. You should not see any hardcoded value on steps, but global variables instead.
 
-![Alt text](img/2023-10-03_12-54-37.png)
+![alt text](img/2024-10-24_09-48-18.png)
 
 We are almost done building the automation, click on the Main tab to return to the main activity (or double click the Main activity from the Activities folder from the Project Explorer)
 
+
+
+In the project explorer, under global objects, select **Queue** (1). then on the Objet explorer (on the left-hand side), drag the **UpdateWorkItem** and drop it between the **Data Entry** step and the **END** Step (3), Make sure the component is connected as shown
+
 ![Alt text](img/2023-10-02_17-22-47.png)
 
-In the project explorer, under global objects, select **Queue** (1). then on the Objet explorer (on the left-hand side), drag the **UpdateWorkItem** and drop it between the **Data Entry** step and the **END** Step (3) as shown
 
-![Alt text](<img/2023-10-02_17-23-20 (1).png>)
-
-Make sure the component is connected as shown
 
 
 ![Alt text](img/2023-10-02_17-27-17.png)
@@ -753,7 +744,7 @@ Make sure the component is connected as shown
 Connect the WorkItemid Data out port of the **Queue/PickWorkItem** component, to WorkItemId data in port of the **Queue/UpdateWorkItem** component
 Then click the property 'inProgress' of the Queue/UpdateWorkitem, then select the static value 'Success' this will update the WorkQueueItem on the instance as Success. This update can eventually be used to trigger a no code workflow on the platform to complete other task of the process.
 
-![Alt text](<img/2023-10-02_17-28-20 (1).gif>)
+![alt text](<img/2024-10-24_09-56-02 (1).gif>)
 
 We have now finished to build the automation.
 
@@ -765,7 +756,7 @@ before we try it lets make sure Studio is connected to the instance by following
  Click the Run button in Studio to try it!
 
 
-![Alt text](<img/2023-10-03_13-21-45 (2).gif>)
+![alt text](<img/2024-10-29_15-28-52 (1).gif>)
 
 If you connect to the RPA Hub workspace, and inspect the Queue Work Item, you should see his status as 'Success', your ServiceNow Developer can then leverage that update as a Trigger in flow designer to trigger other step of the process, but that data entry in the legacy badging application is now automated with RPA Hub! 
 
