@@ -766,4 +766,4 @@ You have successfully completed the lab!
 
 ## Don't have time to finish? 
 
-If you are having difficulty building that automation, you can download the automation package from this link: [Link](https://github.com/quentincloudsnow/badgingappweb/blob/25e0f8c47cc0d3553a716ee1556b3ff382370714/RPApackage/Badge%20Printing%20RPA%20automation%2010001.zip). Extract it on the machine where you have RPA Studio and open it from Studio 
+If you are having difficulty building that automation, you can download the automation package from this link: [Link](https://github.com/quentincloudsnow/badgingappweb/blob/main/RPApackage/Badge%20Printing%20RPA%20automation%20Xanadu.zip). Extract it on the machine where you have RPA Studio and open it from Studio 
